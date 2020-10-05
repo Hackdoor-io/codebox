@@ -7,10 +7,6 @@
   * @author - Adombang Munang Mbomndih (Bomdi) <dzedock@gmail.com> (https://bomdisoft.com)
   */
 
-import rangy from 'rangy/lib/rangy-core.js'
-import 'rangy/lib/rangy-textrange.js'
-import 'rangy/lib/rangy-selectionsaverestore.js'
-
 import { DEFAULT_THEMES, COMMON_LANGUAGES } from './constants';
 
 type CodeboxConfig = {
@@ -156,9 +152,26 @@ export default class CodeBox {
   }
 
   _highlightCodeArea(event){
-    const savedSel = rangy.saveSelection();
     hljs.highlightBlock(this.codeArea);
-    rangy.restoreSelection(savedSel);
+    this._placeCaretAtEnd(this.codeArea)
+  }
+
+  _placeCaretAtEnd(el) {
+    el.focus();
+    if (typeof window.getSelection != "undefined" &&
+      typeof document.createRange != "undefined") {
+      let range = document.createRange();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      let sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } else if (typeof document.body.createTextRange != "undefined") {
+      let textRange = document.body.createTextRange();
+      textRange.moveToElementText(el);
+      textRange.collapse(false);
+      textRange.select();
+    }
   }
 
   _handleCodeAreaPaste(event){
