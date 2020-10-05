@@ -13,6 +13,7 @@
     "esModuleInterop": true,                 
     "skipLibCheck": true,                    
     "forceConsistentCasingInFileNames": true,
-    "preserveSymlinks": true
+    "preserveSymlinks": true,
+    "moduleResolution": "node"
   }
 }

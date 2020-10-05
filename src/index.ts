@@ -7,7 +7,7 @@
   * @author - Adombang Munang Mbomndih (Bomdi) <dzedock@gmail.com> (https://bomdisoft.com)
   */
 
-import rangy from 'rangy'
+import rangy from 'rangy/lib/rangy-core.js'
 import 'rangy/lib/rangy-textrange.js'
 import 'rangy/lib/rangy-selectionsaverestore.js'
 
@@ -109,7 +109,7 @@ export default class CodeBox {
     return Object.assign(this.data, { code: this.codeArea.innerHTML, theme: this._getThemeURLFromConfig() });
   }
 
-  validate(){
+  validate(savedData){
     if (!savedData.code.trim()) return false;
     return true;
   }
@@ -157,7 +157,6 @@ export default class CodeBox {
 
   _highlightCodeArea(event){
     const savedSel = rangy.saveSelection();
-    console.log(rangy)
     hljs.highlightBlock(this.codeArea);
     rangy.restoreSelection(savedSel);
   }
